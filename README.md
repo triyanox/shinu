@@ -16,7 +16,7 @@ yarn add shinu
 ## Basic Usage
 
 ```ts
-import Shinu from 'shinu';
+import { Shinu } from 'shinu';
 
 const shinu = new Shinu();
 shinu.start();

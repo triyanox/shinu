@@ -1,4 +1,4 @@
-import Shinu from '../src/index';
+import { Shinu } from '../src/index';
 
 describe('Test instance', () => {
   const shinu = new Shinu();

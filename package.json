@@ -1,6 +1,6 @@
 {
   "name": "shinu",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "author": "Mohamed Achaq",
   "description": "Shinu in japanese means Die, and this library pevents your process from dying",
