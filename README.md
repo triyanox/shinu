@@ -1,50 +1,170 @@
-# Shinu - Handle process exceptions in a more elegant way
+# Shinu - Elegant Process Exception Handling
 
 [![Rate this package](https://badges.openbase.com/js/rating/shinu.svg?style=openbase&token=0/iL6XW8M+RUS1o8pkEVhDzGWFSYsSirsMxCAmaw8yQ=)](https://openbase.com/js/shinu?utm_source=embedded&amp;utm_medium=badge&amp;utm_campaign=rate-badge)
 
+Shinu is a lightweight Node.js library that makes it easy to handle signals and other process events in your application. It provides a simple interface for registering signal handlers and logging process information.
+
+## Features
+
+- Simple API for adding and removing signal handlers
+- Default signal handlers for common signals (SIGINT, SIGTERM, SIGQUIT)
+- Option to log process information for debugging purposes
+- Option to handle uncaught exceptions and unhandled rejections
+
 ## Installation
 
-You can install `Shinu` using your favorite package manager:
+You can install Shinu using npm or yarn:
 
-with `npm`:
 ```bash
 npm install shinu
 ```
 
-with `yarn`:
+or
+
 ```bash
 yarn add shinu
 ```
-## Basic Usage
 
-```ts
-import { Shinu } from 'shinu';
+## Usage
+
+Here's an example of how to use Shinu to handle the SIGINT signal:
+
+```js
+const { Shinu } = require('shinu');
 
 const shinu = new Shinu();
+
+shinu.addHandler('SIGINT', (signal) => {
+  console.log(`Received ${signal}`);
+  process.exit(0);
+});
+
 shinu.start();
 ```
 
-## Options
+In this example, we create a new `Shinu` instance and add a handler for the `SIGINT` signal. The handler simply logs a message and exits the process. We then call the `start` method to begin listening for signals.
 
-`Shinu` takes an optional `options` object as a parameter. The `options` object has the following properties:
+By default, Shinu includes handlers for the `SIGINT`, `SIGTERM`, and `SIGQUIT` signals, so you don't need to add these manually.
 
-- `handlers`: An array of `Handler` objects. Each `Handler` object has the following properties:
-  - `signal`: The signal to listen for. Can be any of the following:
-    - `SIGINT`
-    - `SIGTERM`
-    - `SIGQUIT`
-    - `uncaughtException`
-    - `unhandledRejection`;
-  - `handler`: A function that will be called when the signal is received. 
-- `logger`: You can pass a custom logger to `Shinu` or use the default one. The default logger is `console`. 
-- `addHandler`: A function that takes a `Handler` object as a parameter and adds it to the `handlers` array.
-- `removeHandler`: A function that takes a `Handler` object as a parameter and removes it from the `handlers` array.
-- `removeAllHandlers`: A function that removes all the handlers from the `handlers` array.
-- `start`: A function that starts listening for the signals.
-- `handleUncaughtException`: A boolean that determines whether `Shinu` should handle `uncaughtException` or not. Defaults to `false`.
-- `handleUnhandledRejection`: A boolean that determines whether `Shinu` should handle `unhandledRejection` or not. Defaults to `false`.
-- `debug`: A boolean that determines whether `Shinu` should run in debug mode or not. Defaults to `false`.
+You can also pass options to the `Shinu` constructor to customize its behavior:
+
+```js
+const { Shinu } = require('shinu');
+
+const shinu = new Shinu({
+  debug: true,
+  handlers: [
+    {
+      signal: 'SIGUSR1',
+      handler: (signal) => {
+        console.log(`Received ${signal}`);
+      },
+    },
+  ],
+});
+
+shinu.start();
+```
+
+In this example, we pass an options object to the `Shinu` constructor to enable debug logging and add a custom signal handler for `SIGUSR1`.
+
+## API
+
+### `new Shinu(options: IShinuOptions)`
+
+Creates a new `Shinu` instance with the specified options.
+
+```js
+const shinu = new Shinu({
+  debug: true,
+  handlers: [
+    {
+      signal: 'SIGUSR1',
+      handler: (signal) => {
+        console.log(`Received ${signal}`);
+      },
+    },
+  ],
+});
+```
+
+#### `options.debug`
+
+Type: `boolean`
+Default: `false`
+
+Enables debug mode. When debug mode is enabled, Shinu will log detailed process information for each signal received.
+
+#### `options.handlers`
+
+Type: `IHandler[]`
+Default: `[]`
+
+An array of signal handlers to register when the `Shinu` instance is started.
+
+#### `options.logger`
+
+Type: `(message: string) => void`
+Default: `console.log`
+
+A function that will be called to log messages. You can use your own logger or replace the default `console.log` method.
+
+#### `options.handleUncaughtException`
+
+Type: `boolean`
+Default: `false`
+
+Enables handling of uncaught exceptions. When this option is enabled, Shinu will log any uncaught exceptions and exit the process.
+
+#### `options.handleUnhandledRejection`
+
+Type: `boolean`
+Default: `false`
+
+Enables handling of unhandled rejections. When this option is enabled, Shinu will log any unhandled rejections and exit the process.
+
+### `shinu.addHandler(signal: signals, handler: handler)`
+
+Adds a handler function for the specified signal.
+
+```js
+shinu.addHandler('SIGUSR1', (signal) => {
+  console.log(`Received ${signal}`);
+});
+```
+
+### `shinu.removeHandler(signal: signals, handler?: handler)`
+
+Removes the specified handler function for the specified signal. If no handler function is provided, removes all handlers for the signal.
+
+```js
+shinu.removeHandler('SIGUSR1');
+```
+
+### `shinu.removeAllHandlers()`
+
+Removes all registered signal handlers.
+
+```js
+shinu.removeAllHandlers();
+```
+
+### `shinu.start()`
+
+Starts listening for registered signals and runs any associated handlers.
+
+```js
+shinu.start();
+```
+
+### `shinu.isHandlerAdded(signal: signals, handler: handler)`
+
+Returns `true` if the specified handler function is registered for the specified signal, `false` otherwise.
+
+```js
+const isHandlerAdded = shinu.isHandlerAdded('SIGUSR1', myHandlerFunction);
+```
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

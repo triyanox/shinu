@@ -1,6 +1,6 @@
 {
   "name": "shinu",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "author": "Mohamed Achaq",
   "description": "Shinu in japanese means Die, and this library pevents your process from dying",
@@ -8,16 +8,14 @@
   "module": "dist/shinu.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "keywords": [
     "prevent",
     "process",
     "shinu",
-    "death",
-    "process death",
-    "prevent process death",
+    "process exit",
+    "prevent process exit",
     "handle exit",
     "handle process exit",
     "handle process exepction",
