@@ -70,6 +70,10 @@ interface IShinu {
    * Handles unhandled rejections
    */
   handleUnhandledRejection: boolean;
+  /**
+   * Checks if a handler is already added
+   */
+  isHandlerAdded: (signal: signals, handler: handler) => boolean;
 }
 
 /**
