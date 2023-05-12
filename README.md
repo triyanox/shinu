@@ -1,7 +1,5 @@
 # Shinu - Elegant Process Exception Handling
 
-[![Rate this package](https://badges.openbase.com/js/rating/shinu.svg?style=openbase&token=0/iL6XW8M+RUS1o8pkEVhDzGWFSYsSirsMxCAmaw8yQ=)](https://openbase.com/js/shinu?utm_source=embedded&amp;utm_medium=badge&amp;utm_campaign=rate-badge)
-
 Shinu is a lightweight Node.js library that makes it easy to handle signals and other process events in your application. It provides a simple interface for registering signal handlers and logging process information.
 
 ## Features
